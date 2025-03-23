@@ -16,27 +16,96 @@
 package com.example.reservations.entities;
 
 import com.example.reservations.entities.enums.PaymentStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  *
  * @author dsilva
  */
 @Entity
-public record PaymentEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id,
-    double amount,
-    LocalDateTime paymentDate,
-    @ManyToOne UserEntity user,
-    @ManyToOne ReservationEntity reservation,
-    @Enumerated(EnumType.STRING) PaymentStatus status
-){
+@Table(name = "payment")
+public class PaymentEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private double amount;
+    private LocalDateTime paymentDate;
+
+    @ManyToOne
+    private UserEntity user;
+
+    @ManyToOne
+    private ReservationEntity reservation;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
+
+    // Public no-arg constructor
+    public PaymentEntity() {
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public LocalDateTime getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(LocalDateTime paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public ReservationEntity getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(ReservationEntity reservation) {
+        this.reservation = reservation;
+    }
+
+    public PaymentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PaymentStatus status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        PaymentEntity that = (PaymentEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

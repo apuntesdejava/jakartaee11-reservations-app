@@ -15,23 +15,74 @@
  */
 package com.example.reservations.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
  * @author dsilva
  */
 @Entity
-public record RestaurantEntity(
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id,
-    String name,
-    String location,
-    @OneToMany(mappedBy = "restaurant") List<TableEntity> tables
-) {
+@Table(name = "restaurant")
+public class RestaurantEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String location;
+
+    @OneToMany(mappedBy = "restaurant")
+    private List<TableEntity> tables;
+
+    // Public no-arg constructor
+    public RestaurantEntity() {
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public List<TableEntity> getTables() {
+        return tables;
+    }
+
+    public void setTables(List<TableEntity> tables) {
+        this.tables = tables;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        RestaurantEntity that = (RestaurantEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

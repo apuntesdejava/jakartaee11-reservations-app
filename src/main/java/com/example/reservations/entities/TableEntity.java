@@ -15,27 +15,82 @@
  */
 package com.example.reservations.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
+import java.util.Objects;
 
 /**
- *
  * @author dsilva
  */
 @Entity
 @jakarta.persistence.Table(name = "table_")
-public record TableEntity(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long id,
-        int number,
-        int capacity,
-        boolean available,
-        @ManyToOne
-        RestaurantEntity restaurant
-        ) {
+public class TableEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private int number;
+    private int capacity;
+    private boolean available;
+
+    @ManyToOne
+    private RestaurantEntity restaurant;
+
+    // Public no-arg constructor
+    public TableEntity() {
+    }
+
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public RestaurantEntity getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(RestaurantEntity restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TableEntity that = (TableEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

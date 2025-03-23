@@ -16,37 +16,120 @@
 package com.example.reservations.entities;
 
 import com.example.reservations.entities.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  *
  * @author dsilva
  */
 @Entity
-public record ReservationEntity(
+@Table(name = "reservation")
+public class ReservationEntity {
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long id,
-        LocalDateTime reservationDate,
-        @ManyToOne
-        UserEntity user,
-        @ManyToOne
-        HotelEntity hotel,
-        @ManyToOne
-        RoomEntity room,
-        @ManyToOne
-        RestaurantEntity restaurant,
-        @ManyToOne
-        TableEntity table,
-        @Enumerated(EnumType.STRING)
-        Status status
-        ) {
+        private Long id;
+        private LocalDateTime reservationDate;
 
+        @ManyToOne
+        private UserEntity user;
+
+        @ManyToOne
+        private HotelEntity hotel;
+
+        @ManyToOne
+        private RoomEntity room;
+
+        @ManyToOne
+        private RestaurantEntity restaurant;
+
+        @ManyToOne
+        private TableEntity table;
+
+        @Enumerated(EnumType.STRING)
+        private Status status;
+
+        // Public no-arg constructor
+        public ReservationEntity() {
+        }
+
+        // Getters and Setters
+        public Long getId() {
+                return id;
+        }
+
+        public void setId(Long id) {
+                this.id = id;
+        }
+
+        public LocalDateTime getReservationDate() {
+                return reservationDate;
+        }
+
+        public void setReservationDate(LocalDateTime reservationDate) {
+                this.reservationDate = reservationDate;
+        }
+
+        public UserEntity getUser() {
+                return user;
+        }
+
+        public void setUser(UserEntity user) {
+                this.user = user;
+        }
+
+        public HotelEntity getHotel() {
+                return hotel;
+        }
+
+        public void setHotel(HotelEntity hotel) {
+                this.hotel = hotel;
+        }
+
+        public RoomEntity getRoom() {
+                return room;
+        }
+
+        public void setRoom(RoomEntity room) {
+                this.room = room;
+        }
+
+        public RestaurantEntity getRestaurant() {
+                return restaurant;
+        }
+
+        public void setRestaurant(RestaurantEntity restaurant) {
+                this.restaurant = restaurant;
+        }
+
+        public TableEntity getTable() {
+                return table;
+        }
+
+        public void setTable(TableEntity table) {
+                this.table = table;
+        }
+
+        public Status getStatus() {
+                return status;
+        }
+
+        public void setStatus(Status status) {
+                this.status = status;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+                if (o == null || getClass() != o.getClass()) return false;
+                ReservationEntity that = (ReservationEntity) o;
+                return Objects.equals(id, that.id);
+        }
+
+        @Override
+        public int hashCode() {
+                return Objects.hashCode(id);
+        }
 }
