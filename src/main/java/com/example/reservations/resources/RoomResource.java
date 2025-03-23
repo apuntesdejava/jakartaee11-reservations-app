@@ -18,16 +18,15 @@ package com.example.reservations.resources;
 import com.example.reservations.request.RoomRequest;
 import com.example.reservations.service.RoomService;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+
 /**
- *
  * @author dsilva
  */
 @Path("room")
@@ -44,10 +43,19 @@ public class RoomResource {
         return Response.ok(list).build();
     }
 
+    @GET
+    @Path("{id}")
+    public Response findById(@PathParam("id") Long id) {
+        return roomService.findById(id)
+                          .map(room -> Response.ok(room).build())
+                          .orElse(Response.status(Response.Status.NOT_FOUND).build());
+    }
+
     @POST
-    public Response create(RoomRequest room) {
+    public Response create(RoomRequest room) throws URISyntaxException {
         var created = roomService.create(room);
-        return Response.ok(created).build();
+        var uri = new URI("room/" + created.getId());
+        return Response.created(uri).entity(created).build();
     }
 
 }

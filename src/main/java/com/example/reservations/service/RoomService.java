@@ -22,6 +22,7 @@ import com.example.reservations.request.RoomRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -43,5 +44,10 @@ public class RoomService {
         return roomRepository.findAll()
                 .map(RoomDto::fromEntity)
                 .toList();
+    }
+
+    public Optional<RoomDto> findById(Long id) {
+        return roomRepository.findById(id)
+                .map(RoomDto::fromEntity);
     }
 }
